@@ -1,0 +1,19 @@
+{
+  "name": "unity.socket.io",
+  "version": "1.0.0",
+  "description": "Socket.IO implementation in Unity3d",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kennelbound-unity/unity.socket.io.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kennelbound-unity/unity.socket.io/issues"
+  },
+  "homepage": "https://github.com/kennelbound-unity/unity.socket.io#readme"
+}
