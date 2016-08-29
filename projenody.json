@@ -1,1 +1,5 @@
-{"name":"unity.socket.io","assetsFolder":"Assets","targetFolder":"/unity.socket.io","projectSettingsFolder":null,"isMain":true}
+{
+  "name": "unity.socket.io",
+  "assetsFolder": "Assets",
+  "targetFolder": "/unity.socket.io"
+}
