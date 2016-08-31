@@ -13,7 +13,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "unity.socket.io": "git+https://github.com/kennelbound-unity/unity.socket.io.git"
+    "saladlab.json.net.unity3d": "git+https://github.com/kennelbound/SaladLab.Json.Net.Unity3d.git"
   },
   "bugs": {
     "url": "https://github.com/kennelbound-unity/unity.socket.io/issues"
