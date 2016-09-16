@@ -44,7 +44,8 @@ namespace SocketIO
 
 		public string url = "ws://127.0.0.1:4567/socket.io/?EIO=3&transport=websocket";
 		public bool autoConnect = false;
-		public int reconnectDelay = 5;
+		public int reconnectDelay = 5000;
+		public int antiblastSlowdownMax = 30000;
 		public float ackExpirationTime = 30f;
 		public float pingInterval = 25f;
 		public float pingTimeout = 60f;
@@ -126,7 +127,7 @@ namespace SocketIO
 
 		public void Update()
 		{
-			lock(eventQueueLock){ 
+			lock(eventQueueLock){
 				while(eventQueue.Count > 0){
 					EmitEvent(eventQueue.Dequeue());
 				}
@@ -171,7 +172,7 @@ namespace SocketIO
         public void SetHeader(string header, string value) {
             ws.SetHeader(header, value);
         }
-		
+
 		public void Connect()
 		{
 			connected = true;
@@ -254,11 +255,17 @@ namespace SocketIO
 		private void RunSocketThread(object obj)
 		{
 			WebSocket webSocket = (WebSocket)obj;
+			int antiblastSlowdown = reconnectDelay;
+
 			while(connected){
 				if(webSocket.IsConnected){
 					Thread.Sleep(reconnectDelay);
 				} else {
 					webSocket.Connect();
+					Thread.Sleep(antiblastSlowdown);
+					if (antiblastSlowdown < antiblastSlowdownMax){
+						antiblastSlowdown = antiblastSlowdown * 2;
+					}
 				}
 			}
 			webSocket.Close();
@@ -280,14 +287,14 @@ namespace SocketIO
 				} else {
 					thPinging = true;
 					thPong =  false;
-					
+
 					EmitPacket(new Packet(EnginePacketType.PING));
 					pingStart = DateTime.Now;
-					
+
 					while(webSocket.IsConnected && thPinging && (DateTime.Now.Subtract(pingStart).TotalSeconds < timeoutMilis)){
 						Thread.Sleep(200);
 					}
-					
+
 					if(!thPong){
 						webSocket.Close();
 					}
@@ -313,7 +320,7 @@ namespace SocketIO
 			#if SOCKET_IO_DEBUG
 			debugMethod.Invoke("[SocketIO] " + packet);
 			#endif
-			
+
 			try {
 				ws.Send(encoder.Encode(packet));
 			} catch(SocketIOException ex) {
@@ -363,7 +370,7 @@ namespace SocketIO
 			thPong = true;
 			thPinging = false;
 		}
-		
+
 		private void HandleMessage(Packet packet)
 		{
 			if(packet.json == null) { return; }
