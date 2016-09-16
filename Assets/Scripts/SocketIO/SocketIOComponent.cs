@@ -265,6 +265,8 @@ namespace SocketIO
 					Thread.Sleep(antiblastSlowdown);
 					if (antiblastSlowdown < antiblastSlowdownMax){
 						antiblastSlowdown = antiblastSlowdown * 2;
+					} else {
+						antiblastSlowdown = antiblastSlowdownMax;
 					}
 				}
 			}
