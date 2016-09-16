@@ -263,7 +263,7 @@ namespace SocketIO
 				} else {
 					webSocket.Connect();
 					Thread.Sleep(antiblastSlowdown);
-					if (antiblastSlowdown < antiblastSlowdownMax){
+					if(antiblastSlowdown < antiblastSlowdownMax){
 						antiblastSlowdown = antiblastSlowdown * 2;
 					} else {
 						antiblastSlowdown = antiblastSlowdownMax;
